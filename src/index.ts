@@ -1,4 +1,6 @@
+import "reflect-metadata";
 import express from 'express'
+import "./Shared/Container";
 import { AppDataSource } from './data-source'
 
 AppDataSource.initialize().then(() => {

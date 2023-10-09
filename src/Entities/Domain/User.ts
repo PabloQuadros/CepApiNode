@@ -32,6 +32,7 @@ export class User {
 
 
     constructor(
+        Id: string,
         LastUpdatedDate: Date | null,
         Name: string,
         Email: string,
@@ -40,20 +41,32 @@ export class User {
         Sex: string | null,
         Role: string | null
       ) {
-        let validationErrors: string[] = [];
+        this.Id = Id;
         this.LastUpdatedDate = LastUpdatedDate;
-        this.Name = this.userNameValidation(Name, validationErrors);
-        this.Email = this.userEmailValidation(Email, validationErrors);
-        this.Password = this.userPasswordValidation(Password, validationErrors);
+        this.Name = Name;
+        this.Email = Email;
+        this.Password =Password;
         this.BirthDay = BirthDay;
-        this.Sex = this.userSexValidation(Sex, validationErrors);
-        this.Role = this.userRoleValidation(Role, validationErrors);
+        this.Sex = Sex;
+        this.Role = Role;
+      }
+    
+    userValidation(): void {
+        let validationErrors: string[] = [];
+        this.Id = this.Id;
+        this.LastUpdatedDate = this.LastUpdatedDate;
+        this.Name = this.userNameValidation(this.Name, validationErrors);
+        this.Email = this.userEmailValidation(this.Email, validationErrors);
+        this.Password = this.userPasswordValidation(this.Password, validationErrors);
+        this.BirthDay = this.BirthDay;
+        this.Sex = this.userSexValidation(this.Sex, validationErrors);
+        this.Role = this.userRoleValidation(this.Role, validationErrors);
 
         if (validationErrors.length > 0) {
             throw new Error(validationErrors.join("\n"));
           }
-      }
-    
+    }
+
     userNameValidation(name: string, validationErrors: string[]): string{
         const errorMessage = "The field name cannot be null and must contain a minimum of 3 and a maximum of 50 characters, including: letters and spaces.";
         
@@ -104,6 +117,7 @@ export class User {
         
         if (!/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(password || "")) {
             validationErrors.push(errorMessage);
+            return "Empty";
         }
 
         return PasswordHashing.hashPassword(password);
